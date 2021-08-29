@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+    <script>
+
+        $.ajax({
+            type: 'GET',
+            url: "https://api.mercadolibre.com/sites/MLB/search?q=computador",
+            dataType: 'json',
+            success: dados => {console.log(dados.results)
+
+                const produto = dados.results
+                
+                for (var x = 0; x <= 50; x++) {
+                    let nomeProduto = produto[x]['title']
+                    let imagem = produto[x]['thumbnail']
+                    let preco = produto[x]['price']
+                    let sku = produto[x]['id']
+
+                    let li = document.createElement('li')
+                    li.innerText = nomeProduto
+
+
+
+                                 
+                                   
+                   
+                    //$('div').attr('img',imagem)
+                    
+                    /*
+
+                $('#prod').html('<h4>'+dados.results[indice]['title']+'</h4>')
+                $('#prod').html('<img src='+dados.results[indice]['thumbnail']+'>')
+                $('#prod').html(dados.results[indice]['price'])
+                $('#prod').html(dados.results[indice]['id'])*/
+                
+                }
+            
+            }
+        })
+       
+        
+     </script>
+
+</head>
+<body>
+    
+    <div id='nome'>
+
+    </div>
+
+    <img>
+    <div id='imagem'>
+
+    </div>
+
+    <div id='preco'>
+
+    </div>
+
+    <div id='sku'>
+
+    </div>
+
+    
+</body>
+</html>
+
+
+
