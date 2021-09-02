@@ -19,14 +19,22 @@
 
                 const produto = dados.results
                 
-                for (var x = 0; x <= 50; x++) {
-                    let nomeProduto = produto[x]['title']
-                    let imagem = produto[x]['thumbnail']
-                    let preco = produto[x]['price']
-                    let sku = produto[x]['id']
+                produto.forEach(function(valor,indice,array){
 
-                    let li = document.createElement('li')
-                    li.innerText = nomeProduto
+                    let nomeProduto = produto[indice]["title"]
+                    let imagem = '<img src='+produto[indice]["thumbnail"]+'>'
+                    let preco = produto[indice]["price"]
+                    let sku = produto[indice]["id"]
+
+                    
+                    $('body').append(nomeProduto, "</br>",
+                                    imagem, "</br>",
+                                    preco, "</br>",
+                                    sku, "</br>")
+                    //document.write(produto[indice]["title"]+'</br>')
+                    //$('body').append(produto[indice["thumbnail"]])
+                }) 
+                    
 
 
 
@@ -45,7 +53,7 @@
                 }
             
             }
-        })
+        )
        
         
      </script>
@@ -53,22 +61,7 @@
 </head>
 <body>
     
-    <div id='nome'>
-
-    </div>
-
-    <img>
-    <div id='imagem'>
-
-    </div>
-
-    <div id='preco'>
-
-    </div>
-
-    <div id='sku'>
-
-    </div>
+    
 
     
 </body>

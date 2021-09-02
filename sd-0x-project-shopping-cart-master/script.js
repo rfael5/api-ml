@@ -1,3 +1,11 @@
+$.ajax({
+  type: 'GET',
+  url: "https://api.mercadolibre.com/sites/MLB/search?q=computador",
+  dataType: 'json',
+  success: dados => {console.log(dados.results)
+
+      const produto = dados.results}})
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -12,14 +20,15 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({ sku, name, image }) {
-  const section = document.createElement('section');
+function createProductItemElement(sku, name, image, preco) {
+  const section = document.createElement('div');
   section.className = 'item';
 
-  section.appendChild(createCustomElement('span', 'item__sku', sku));
-  section.appendChild(createCustomElement('span', 'item__title', name));
-  section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+  $('.item').append(sku,'</br>');
+  $('.item').append(name,'</br>');
+  $('.item').append(`R$${preco.toFixed(2)}`,'</br>');
+  $('.item').append(image,'</br>');
+  $('.item').append(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
 
   return section;
 }
@@ -47,15 +56,48 @@ function inserirItens () {
     dataType: 'json',
     success: dados => {console.log(dados.results)
 
-        let produto = dados.results
+        const produto = dados.results
         produto.forEach(function(valor, indice, array){
-          createProductItemElement(array[indice]['id'], array[indice]['title'], array[indice]['thumbnail'])
-        })              
-           
-        }    
+          const nomeProduto = produto[indice]["title"]
+          const imagem = produto[indice]["thumbnail"]
+          const preco = produto[indice]["price"]
+          const sku = produto[indice]["id"]
+          //createProductItemElement(sku, nomeProduto, imagem)
+
+          const elementos = createProductItemElement(sku, nomeProduto, imagem)        
+          
+          document.querySelector('.items').appendChild(elementos)
+          
         })
-      }
+                   
+       
+            
+        }})
+        return elementos }
     
     
 
-window.onload = () => {inserirItens()};
+window.onload = () => {$.ajax({
+  type: 'POST',
+  url: "https://api.mercadolibre.com/sites/MLB/search?q=computador",
+  dataType: 'json',
+  success: dados => {console.log(dados.results)
+
+      const produto = dados.results
+      produto.forEach(function(valor, indice, array){
+        const nomeProduto = produto[indice]["title"]
+        const imagem = '<img src='+produto[indice]["thumbnail"]+'>'
+        const preco = produto[indice]["price"]
+        const sku = produto[indice]["id"]
+        //createProductItemElement(sku, nomeProduto, imagem)
+               
+        const elementos = createProductItemElement(sku, nomeProduto, imagem, preco)        
+          
+        $('.items').append(elementos)
+        
+      })             
+     
+          
+      }})
+    
+     };
