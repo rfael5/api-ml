@@ -1,10 +1,4 @@
-$.ajax({
-  type: 'GET',
-  url: "https://api.mercadolibre.com/sites/MLB/search?q=computador",
-  dataType: 'json',
-  success: dados => {console.log(dados.results)
 
-      const produto = dados.results}})
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -49,55 +43,38 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-function inserirItens () {
+function inserirElementos() {
   $.ajax({
-    type: 'GET',
+    type: 'POST',
     url: "https://api.mercadolibre.com/sites/MLB/search?q=computador",
     dataType: 'json',
     success: dados => {console.log(dados.results)
+  
+        const produto = dados.results             
 
-        const produto = dados.results
-        produto.forEach(function(valor, indice, array){
+        
+        produto.forEach(function(valor, indice, array){     
           const nomeProduto = produto[indice]["title"]
-          const imagem = produto[indice]["thumbnail"]
+          const imagem = '<img src='+produto[indice]["thumbnail"]+'>'
           const preco = produto[indice]["price"]
           const sku = produto[indice]["id"]
           //createProductItemElement(sku, nomeProduto, imagem)
-
-          const elementos = createProductItemElement(sku, nomeProduto, imagem)        
+                 
+          const elementos = createProductItemElement(sku, nomeProduto, imagem, preco)        
+            
+          document.getElementById("items").appendChild(elementos)        
+         
           
-          document.querySelector('.items').appendChild(elementos)
-          
-        })
-                   
+        
        
             
-        }})
-        return elementos }
-    
-    
+        })}
 
-window.onload = () => {$.ajax({
-  type: 'POST',
-  url: "https://api.mercadolibre.com/sites/MLB/search?q=computador",
-  dataType: 'json',
-  success: dados => {console.log(dados.results)
+})}
 
-      const produto = dados.results
-      produto.forEach(function(valor, indice, array){
-        const nomeProduto = produto[indice]["title"]
-        const imagem = '<img src='+produto[indice]["thumbnail"]+'>'
-        const preco = produto[indice]["price"]
-        const sku = produto[indice]["id"]
-        //createProductItemElement(sku, nomeProduto, imagem)
-               
-        const elementos = createProductItemElement(sku, nomeProduto, imagem, preco)        
-          
-        $('.items').append(elementos)
-        
-      })             
-     
-          
-      }})
+window.onload = () => {
+  inserirElementos()
     
      };
+
+
