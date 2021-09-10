@@ -1,5 +1,4 @@
 
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -15,14 +14,14 @@ function createCustomElement(element, className, innerText) {
 }
 
 function createProductItemElement(sku, name, image, preco) {
-  const section = document.createElement('div');
+  const section = document.createElement('section');
   section.className = 'item';
 
-  $('.item').append(sku,'</br>');
-  $('.item').append(name,'</br>');
-  $('.item').append(`R$${preco.toFixed(2)}`,'</br>');
-  $('.item').append(image,'</br>');
-  $('.item').append(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+  section.append(sku,'</br>');
+  section.append(name,'</br>');
+  section.append(`R$${preco.toFixed(2)}`,'</br>');
+  section.append(image,'</br>');
+  section.append(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
 
   return section;
 }
@@ -32,7 +31,7 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -43,38 +42,45 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-function inserirElementos() {
-  $.ajax({
-    type: 'POST',
-    url: "https://api.mercadolibre.com/sites/MLB/search?q=computador",
-    dataType: 'json',
-    success: dados => {console.log(dados.results)
-  
-        const produto = dados.results             
+function inserirItens () {$.ajax({
+  type: 'POST',
+  url: "https://api.mercadolibre.com/sites/MLB/search?q=computador",
+  dataType: 'json',
+  success: dados => {console.log(dados.results)  
 
-        
-        produto.forEach(function(valor, indice, array){     
-          const nomeProduto = produto[indice]["title"]
-          const imagem = '<img src='+produto[indice]["thumbnail"]+'>'
-          const preco = produto[indice]["price"]
-          const sku = produto[indice]["id"]
-          //createProductItemElement(sku, nomeProduto, imagem)
-                 
-          const elementos = createProductItemElement(sku, nomeProduto, imagem, preco)        
-            
-          document.getElementById("items").appendChild(elementos)        
-         
-          
-        
-       
-            
-        })}
-
-})}
-
-window.onload = () => {
-  inserirElementos()
     
-     };
+          
+    dados.results.forEach(function(valor, indice, array){
 
+            
+      
+      const produto = dados.results
+      //console.log(produto.length)
+      const nomeProduto = produto[indice]["title"]
+      const imagem = createProductImageElement(produto[indice]["thumbnail"])
+      const preco = produto[indice]["price"]
+      const sku = produto[indice]["id"]
 
+      /*$('.item').append(nomeProduto)
+      $('.item').append(imagem)
+      $('.item').append(preco)
+      $('.item').append(sku)
+      $('.item').append(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'))*/
+      
+                             
+      elementos = createProductItemElement(sku, nomeProduto, imagem, preco)
+      document.getElementById('items').append(elementos)
+                  
+        
+              
+      } )
+
+      
+     
+     
+          
+      }}) }
+    
+    
+
+window.onload = () => {inserirItens()};
